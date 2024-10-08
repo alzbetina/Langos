@@ -1,3 +1,4 @@
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -18,17 +19,18 @@ class Kinomaniak:
             "Premiere": movie_elements[3].text.strip(),
             "Studio": movie_elements[4].text.strip()}
 
+        table_variable = ["Tržby v ČR \\($", "Návštěvnost v ČR", "1. víkend tržby","1. víkend diváci", "Víkendů v TOP 20", "Poměr diváků 1. víkend/celkem", "Přepočtené tržby akt. kurzem", "Vidělo lidí v ČR"]
+        revenue_values = []
 
         revenue_table = soup.find("div", class_="col-12 col-xl-4 pt-4 pt-md-0")
-        revenue_elements = revenue_table.findAll("h3", {"class": "h5"})
-
-        revenue_values = []
-        for element in revenue_elements:
-            if element.parent.get("id") is not None:
+        for variable in table_variable:
+            revenue_elements = revenue_table.find(string=re.compile(variable))
+            if revenue_elements is None:
+                revenue_values.append("None")
                 continue
+            element = revenue_elements.parent.find_next("h3")
             clean_element = element.text.strip().replace('\xa0','')
             revenue_values.append(clean_element)
-
 
         revenue_keys = ["Total revenues", "Total viewers", "1st weekend revenues","1st weekend viewers", "TOP 20 weekends", "1st weekend/viewers", "Revenue in dollars", "Viewers/Population"]
 
