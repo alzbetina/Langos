@@ -26,12 +26,9 @@ for element in revenue_elements:
     clean_element = element.text.strip().replace('\xa0',"")
     revenue_values.append(clean_element)
 
-#print(revenue_elements[0].text.strip())
-#print(revenue_values)
-#print(movie_elements)
 
 revenue_keys = ["Total revenues", "Total viewers", "1st weekend revenues","1st weekend viewers", "TOP 20 weekends", "1st weekend/viewers", "Revenue in dollars", "Viewers/Population"]
-#revenue_values = revenue_elements.strip()
+
 revenue_dict = dict(zip(revenue_keys,revenue_values))
 
 information_dict.update(revenue_dict)
