@@ -13,6 +13,7 @@ class Kinomaniak:
 
         movie_elements = information_table.findAll("div", {"class": "col-8 col-xl-9 col-xxl-10"})
         information_dict = {
+            "Movie Title": movie_title,
             "Premiere Czechia": movie_elements[0].text.strip(),
             "Distributor": movie_elements[1].text.strip(),
             "Country": movie_elements[2].text.strip(),
