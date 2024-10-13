@@ -1,12 +1,5 @@
 from kinomaniak import Kinomaniak
 
 scraper_kinomaniak = Kinomaniak()
-url1 = "https://kinomaniak.cz/filmy/sladky-zivot-2024"
-data_film1 = scraper_kinomaniak.scrape(url1)
-print(data_film1)
-url2 = "https://kinomaniak.cz/filmy/tankovy-prapor"
-data_film2 = scraper_kinomaniak.scrape(url2)
-print(data_film2)
-
-url_list = scraper_kinomaniak.films_urls(2010)
-print(url_list)
+scraper_kinomaniak.scrape(2024)
+print(scraper_kinomaniak.all_films)

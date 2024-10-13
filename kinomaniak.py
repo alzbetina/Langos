@@ -1,9 +1,17 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 class Kinomaniak:
-    def scrape(self, url: str) -> dict:
+    def scrape (self, start_year):
+        self.scrape_film_list(start_year)
+        self.all_films = []
+        for film_url in self.all_films_url:
+            film = self.scrape_film(film_url)
+            self.all_films.append(film)
+
+    def scrape_film(self, url: str) -> dict:
         movie_page = requests.get(url)
         soup = BeautifulSoup(movie_page.content, 'html.parser')
 
@@ -42,7 +50,7 @@ class Kinomaniak:
         return information_dict
     
 
-    def html_scrape(self, url: str):
+    def scrape_films_page(self, url: str):
         search_page = requests.get(url)
         soup = BeautifulSoup(search_page.content, 'html.parser')
 
@@ -54,11 +62,11 @@ class Kinomaniak:
         return film_url
 
 
-    def films_urls(self, start_year):
-        all_films = []
+    def scrape_film_list(self, start_year):
+        self.all_films_url = []
 
-        for year in range(start_year, 2025):
+        for year in range(start_year, datetime.now().year):
             url_year = f"https://kinomaniak.cz/hledej/rozsirene/0/99/{year}/0/0/0"
-            year_list = self.html_scrape(url_year)
-            all_films.extend(year_list)
-        return all_films
+            year_list = self.scrape_films_page(url_year)
+            self.all_films_url.extend(year_list)
+        
