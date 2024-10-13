@@ -1,11 +1,4 @@
 from kinomaniak import Kinomaniak
-from kinomaniak_html import Kinomaniak
-
-start_year = 2010
-url_part1 = "https://kinomaniak.cz/hledej/rozsirene/0/99/"
-url_part2 = "/0/0/0"
-
-html_data = scraper_kinomaniak.films_urls(start_year, url_part1, url_part2)
 
 scraper_kinomaniak = Kinomaniak()
 url1 = "https://kinomaniak.cz/filmy/sladky-zivot-2024"
