@@ -40,3 +40,25 @@ class Kinomaniak:
         information_dict.update(revenue_dict)
 
         return information_dict
+    
+
+    def html_scrape(self, url: str):
+        search_page = requests.get(url)
+        soup = BeautifulSoup(search_page.content, 'html.parser')
+
+        information_table = soup.find("table", class_="table table-hover table-bordered bg-white")
+        film_url = []
+
+        for link in information_table.find_all('a'):
+            film_url.append(f'{"https://kinomaniak.cz"}{link.get("href")}')
+        return film_url
+
+
+    def films_urls(self, start_year):
+        all_films = []
+
+        for year in range(start_year, 2025):
+            url_year = f"https://kinomaniak.cz/hledej/rozsirene/0/99/{year}/0/0/0"
+            year_list = self.html_scrape(url_year)
+            all_films.extend(year_list)
+        return all_films
