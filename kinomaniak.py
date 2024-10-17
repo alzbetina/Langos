@@ -18,7 +18,8 @@ class Kinomaniak:
         information_dict = {}
 
         information_table = soup.find("div", class_="card-body")
-        movie_title = (information_table.find("h2", class_="h5")).text.strip()
+        movie_title = soup.find("h1", string=re.compile(".* - Tržby a návštěvnost")).text.strip()
+        movie_title = movie_title.replace(" - Tržby a návštěvnost", "")
 
         information_dict["Movie Title"] = movie_title
 
