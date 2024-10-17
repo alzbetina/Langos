@@ -15,18 +15,31 @@ class Kinomaniak:
         movie_page = requests.get(url)
         soup = BeautifulSoup(movie_page.content, 'html.parser')
 
+        information_dict = {}
 
         information_table = soup.find("div", class_="card-body")
         movie_title = (information_table.find("h2", class_="h5")).text.strip()
 
-        movie_elements = information_table.findAll("div", {"class": "col-8 col-xl-9 col-xxl-10"})
-        information_dict = {
-            "Movie Title": movie_title,
-            "Premiere Czechia": movie_elements[0].text.strip(),
-            "Distributor": movie_elements[1].text.strip(),
-            "Country": movie_elements[2].text.strip(),
-            "Premiere": movie_elements[3].text.strip(),
-            "Studio": movie_elements[4].text.strip()}
+        information_dict["Movie Title"] = movie_title
+
+        table_details = ["Start ČR", "Distribuce", "Země", "Premiéra", "Studio"]
+        movie_values = []
+
+        for detail in table_details:
+            movie_elements = information_table.find(string=re.compile(detail))
+            if movie_elements is None:
+                movie_values.append(None)
+                continue
+            element = movie_elements.find_next("div").find("a")  
+            clean_element = element.text.strip()
+            movie_values.append(clean_element)
+        
+        movie_keys = ["Premiere Czechia", "Distributor", "Country","Premiere", "Studio"]
+
+        movie_dict = dict(zip(movie_keys, movie_values))
+
+        information_dict.update(movie_dict)
+
 
         table_variable = ["Tržby v ČR \\($", "Návštěvnost v ČR", "1. víkend tržby","1. víkend diváci", "Víkendů v TOP 20", "Poměr diváků 1. víkend/celkem", "Přepočtené tržby akt. kurzem", "Vidělo lidí v ČR"]
         revenue_values = []
