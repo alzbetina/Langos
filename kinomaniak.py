@@ -35,7 +35,7 @@ class Kinomaniak:
         for variable in table_variable:
             revenue_elements = revenue_table.find(string=re.compile(variable))
             if revenue_elements is None:
-                revenue_values.append("None")
+                revenue_values.append(None)
                 continue
             element = revenue_elements.parent.find_next("h3")
             clean_element = element.text.strip().replace('\xa0','')
