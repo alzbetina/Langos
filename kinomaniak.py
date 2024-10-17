@@ -65,7 +65,7 @@ class Kinomaniak:
     def scrape_film_list(self, start_year):
         self.all_films_url = []
 
-        for year in range(start_year, datetime.now().year):
+        for year in range(start_year, datetime.now().year + 1):
             url_year = f"https://kinomaniak.cz/hledej/rozsirene/0/99/{year}/0/0/0"
             year_list = self.scrape_films_page(url_year)
             self.all_films_url.extend(year_list)
