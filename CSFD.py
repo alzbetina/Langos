@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 
 class CSFD:
-    def scrape (self, page_start):
+    def scrape(self, page_start):
         self.scrape_film_CSFD(page_start)
         self.all_films = []
         for film_url in self.all_films_url:
@@ -62,19 +62,27 @@ class CSFD:
     
         #zvlášť loop pro herce včetně hidden údajů
         actors_parent = info.find(string=re.compile("Hrají"))
-        actors_siblings = actors_parent.parent.findNextSiblings("a")
-        for sibling in actors_siblings:
-            actor = sibling.text
-            actors_list.append(actor)
-        hidden_actor = actors_parent.find_next("span").findAll("a")
-        for hidden in hidden_actor:
-            actor = hidden.text.strip()
-            actors_list.append(actor)
+        
+        if actors_parent:
+            actors_siblings = actors_parent.parent.findNextSiblings("a")
+            for sibling in actors_siblings:
+                actor = sibling.text
+                actors_list.append(actor)
+            hidden_actor = actors_parent.find_next("span").findAll("a")
+            for hidden in hidden_actor:
+                actor = hidden.text.strip()
+                actors_list.append(actor)
+        else:
+            actors_list.append(None)
     
         #hodnocení v % a počet hodnocení
-        rating = inforating.find("div", class_="film-rating-average").text.strip()
-        rates_parent = inforating.find(string=re.compile("Hodnocení"))
-        rates = rates_parent.parent.find_next("span").text.replace("(","").replace(")","").replace("\xa0","")
+        if inforating:
+            rating = inforating.find("div", class_="film-rating-average").text.strip()
+            rates_parent = inforating.find(string=re.compile("Hodnocení"))
+            rates = rates_parent.parent.find_next("span").text.replace("(","").replace(")","").replace("\xa0","")
+        else:
+            rating = None
+            rates = None
         
         #dictionary keys
         film_keys = ["Movie Title", "Rating", "Number of Rates", "Genre", "Origin", "Actors"]
