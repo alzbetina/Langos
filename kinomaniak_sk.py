@@ -42,7 +42,7 @@ class Kinomaniak_SK:
         information_dict.update(movie_dict)
 
 
-        table_variable = ["Tržby v ČR \\($", "Návštěvnost v ČR", "1. víkend tržby","1. víkend diváci", "Víkendů v TOP 20", "Poměr diváků 1. víkend/celkem", "Přepočtené tržby akt. kurzem", "Vidělo lidí v ČR"]
+        table_variable = ["Tržby v ČR \\(hrubé\\)", "Návštěvnost v ČR", "1. víkend tržby","1. víkend diváci", "Víkendů v TOP 20", "Poměr diváků 1. víkend/celkem", "Přepočtené tržby akt. kurzem", "Vidělo lidí v ČR"]
         revenue_values = []
 
         revenue_table = soup.find("div", class_="col-12 col-xl-4 pt-4 pt-md-0")
